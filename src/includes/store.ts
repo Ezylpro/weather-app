@@ -2,13 +2,11 @@ import {createStore} from "vuex";
 
 interface State {
     accessToken: string | null;
-    cities: [];
 }
 
 const store = createStore<State>({
     state: {
         accessToken: localStorage.getItem('access-token') || null,
-        cities: []
     },
     mutations: {
         /**
@@ -21,7 +19,7 @@ const store = createStore<State>({
             localStorage.setItem('access-token', accessToken);
         },
 
-         /**
+        /**
          * Remove Access token
          * @param state
          */
@@ -30,10 +28,8 @@ const store = createStore<State>({
             localStorage.removeItem('access-token');
         }
     },
-    actions: {},
     getters: {
         accessToken: (state: State) => state.accessToken,
-        cities: (state: State) => state.cities
     }
 });
 

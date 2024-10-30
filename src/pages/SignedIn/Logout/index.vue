@@ -3,6 +3,7 @@
 </template>
 <script lang="ts">
 import {defineComponent} from "vue";
+import store from "@src/includes/store.ts";
 
 export default defineComponent({
   name: "Logout",
@@ -11,7 +12,7 @@ export default defineComponent({
   },
   methods: {
     async logout() {
-      this.$store.commit('logout', null);
+      store.commit('logout', null);
       this.$router.replace("/login");
     }
   }

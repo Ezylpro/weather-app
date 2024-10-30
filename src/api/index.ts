@@ -1,3 +1,5 @@
+import store from "../includes/store.ts";
+
 const api = {
 
     /**
@@ -5,20 +7,44 @@ const api = {
      * @param email
      * @param password
      */
-    login(email: string, password: string) {
+    login(email: string, password: string): Promise<NavigationPreloadState> {
         return this.post("login", {email, password});
     },
 
-    getAccount() {
-        return this.get("account");
+    getStates(): Promise<NavigationPreloadState> {
+        return this.get("states");
     },
 
-    get(url: string) {
+    getCities(stateId: string): Promise<NavigationPreloadState> {
+        return this.get("states/" + stateId + "/cities");
+    },
+
+    getSavedLocations(): Promise<NavigationPreloadState> {
+        return this.get("locations/saved");
+    },
+
+    getLocationDetails(stateId: string, cityId: string): Promise<NavigationPreloadState> {
+        return this.get("locations/" + stateId + "/" + cityId);
+    },
+
+    addToSavedLocations(stateId: string, cityId: string): Promise<NavigationPreloadState> {
+        return this.post("locations/" + stateId + "/" + cityId + "/save", {});
+    },
+
+    removeFromSavedLocations(stateId: string, cityId: string): Promise<NavigationPreloadState> {
+        return this.delete("locations/" + stateId + "/" + cityId);
+    },
+
+    get(url: string): Promise<NavigationPreloadState> {
         return this.request("GET", url);
     },
 
-    post(url: string, data: object) {
+    post(url: string, data: object): Promise<NavigationPreloadState> {
         return this.request("POST", url, data);
+    },
+
+    delete(url: string): Promise<NavigationPreloadState> {
+        return this.request("DELETE", url);
     },
 
     url(endpoint: string) {
@@ -26,6 +52,7 @@ const api = {
     },
 
     async request(method: string, url: string, data = {}) {
+        const access_token = store.getters.accessToken;
 
         let params: RequestInit = {
             method: method,
@@ -33,6 +60,7 @@ const api = {
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
+                Authorization: 'Bearer ' + access_token
             },
         };
 

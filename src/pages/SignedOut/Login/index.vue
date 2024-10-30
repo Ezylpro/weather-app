@@ -5,6 +5,11 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm space-y-6">
+
+      <template v-if="error !== ''">
+        <error-toast :error="error"/>
+      </template>
+
       <div>
         <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
         <div class="mt-2">
@@ -49,16 +54,25 @@
 </template>
 <script lang="ts">
 import {defineComponent} from "vue";
-import api from "../../../api";
+import api from "@src/api";
 import {mapGetters} from "vuex";
+import store from "@src/includes/store.ts";
+import ErrorToast from "@components/ErrorToast.vue";
+
+type loginResponseType = {
+  token?: string,
+  error?: string
+}
 
 export default defineComponent({
   name: "Login",
+  components: {ErrorToast},
   data() {
     return {
       email: "",
       password: "",
       loading: false,
+      error: ""
     }
   },
   computed: {
@@ -72,7 +86,7 @@ export default defineComponent({
       this.loading = true;
 
       // We could add the requests on the store as well
-      const response = await api.login(this.email, this.password);
+      const response = await api.login(this.email, this.password) as loginResponseType;
 
       if (response.error) {
         this.loading = false;
@@ -80,14 +94,13 @@ export default defineComponent({
         return;
       }
 
-      this.$store.commit('setAccessToken', response.token);
+      store.commit('setAccessToken', response.token);
       this.$router.push("/");
 
       this.loading = false;
     },
     handleError(error: string) {
-      // @TODO: Add in the UI
-      console.error(error);
+      this.error = error;
     }
   },
   beforeMount() {

@@ -1,10 +1,11 @@
 import {createWebHistory, createRouter} from 'vue-router'
 
-import Home from '../pages/SignedIn/Home.vue'
-import AuthenticatedLayout from "../pages/AuthenticatedLayout.vue";
-import Login from "../pages/SignedOut/Login/index.vue";
-import Logout from "../pages/SignedIn/Logout/index.vue";
-import NotFound from "../pages/NotFound/index.vue";
+import Home from '@pages/SignedIn/Home/index.vue'
+import City from '@pages/SignedIn/City/index.vue'
+import AuthenticatedLayout from "@pages/AuthenticatedLayout.vue";
+import Login from "@pages/SignedOut/Login/index.vue";
+import Logout from "@pages/SignedIn/Logout/index.vue";
+import NotFound from "@pages/NotFound/index.vue";
 
 const routes = [
     {
@@ -12,6 +13,7 @@ const routes = [
         component: AuthenticatedLayout,
         children: [
             {name: 'home', path: "", component: Home},
+            {name: 'city', path: "/city/:stateId/:cityId", component: City},
             {name: 'logout', path: '/logout', component: Logout},
         ]
     },
