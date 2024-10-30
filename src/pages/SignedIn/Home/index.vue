@@ -45,6 +45,7 @@
 import {defineComponent} from "vue";
 import {getWeatherIcon} from "@src/helpers";
 import api from "@src/api";
+import ForecastConditionEnum from "@helpers/enums/ForecastConditionEnum.ts";
 
 type savedLocationsResponseType = {
   "state": {
@@ -59,7 +60,7 @@ type savedLocationsResponseType = {
   "max_temp": string,
   "min_temp": string,
   "rain_probability": string,
-  "condition": string
+  "condition": ForecastConditionEnum
 }
 
 export default defineComponent({

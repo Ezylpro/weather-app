@@ -30,12 +30,12 @@
   </div>
 </template>
 
-<script>
-
+<script lang="ts">
 import {mapGetters} from "vuex";
-import SearchCity from "../components/SearchCity.vue";
+import SearchCity from "@components/SearchCity.vue";
+import {defineComponent} from "vue";
 
-export default {
+export default defineComponent({
   name: "AuthenticatedLayout",
   components: {SearchCity},
   computed: {
@@ -48,5 +48,5 @@ export default {
       this.$router.push("/login");
     }
   },
-};
+});
 </script>
